@@ -1,0 +1,19 @@
+{
+  "name": "ejson",
+  "version": "1.0.0",
+  "description": "running a simple ejson database server that can read and write with its own virtual filesystem",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-monkey": "^1.0.5",
+    "lodash": "^4.17.21",
+    "memfs": "^4.7.7",
+    "underscore": "^1.13.6",
+    "unionfs": "^4.5.1"
+  }
+}
