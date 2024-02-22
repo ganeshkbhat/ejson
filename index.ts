@@ -12,15 +12,7 @@ class FileHandler {
 
   vl;
 
-  /**
-   * Creates an instance of FileHandler.
-   * @param {*} json
-   * @param {*} cwd
-   * @memberof FileHandler
-   */
-  constructor(json, cwd) {
-    this.vl = this.create(json, cwd);
-  }
+  constructor() {}
 
   /**
    *
@@ -107,7 +99,7 @@ class Ejson extends FileHandler {
    * @memberof Ejson
    */
   constructor(vjson, cwd) {
-    super(vjson || {}, cwd);
+    super();
     this.jsonValue = vjson;
     this.QueryBuilder = this.merge(_lodash, _underscore);
   }
