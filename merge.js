@@ -15,6 +15,11 @@
 
 'use strict';
 
+/**
+ * isBrowser
+ *
+ * @return {*} 
+ */
 function isBrowser() {
   if (typeof process === "object" && typeof require === "function") {
     return false;
@@ -32,6 +37,23 @@ if (isBrowser()) {
   fetch("https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js").then((l) => { _l = l; });
 }
 
+/**
+ * 
+ * merge
+ *  merges two objects the target and extender
+ *  uses a _ for the key like (extender[key+_]) at the end of extender key 
+ *  if there is a name clash
+ *
+ * @param {*} l
+ *      assignable target 
+ *      benefits of being a target include if the the target itself is 
+ *          a function and everything else is a prototype like lodash
+ * @param {*} u
+ *      extending object
+ *      extend the target with properties/ keys of object "u"
+ * @param {boolean} [mergeall=true]
+ * @return {*} 
+ */
 function merge(l, u, mergeall = true) {
   let lk = Object.keys(l), uk = Object.keys(u);
   for (let i = 0; i < lk.length; i++) {
@@ -45,7 +67,7 @@ function merge(l, u, mergeall = true) {
   }
   u["_" + "chain"] = u["chain"];
   u["_" + "value"] = u["value"];
-  return { ...u, ...l }
+  return Object.assign(l, u);
 }
 
 var _ = merge(_l, _u);
