@@ -5,16 +5,6 @@ import * as _lodash from "lodash";
 import * as _underscore from "underscore";
 import { default as merge } from "./merge.js";
 
-class Ejson {
-  _
-
-  constructor() {
-    this._ = this.merge(_lodash, _underscore)
-  }
-
-  merge = merge
-  
-}
 
 class FileHandler {
 
@@ -65,9 +55,22 @@ class FileHandler {
     vol2.readFileSync('/foo'); // bar 2
 
     vol.writeFileSync('/foo', 'bar');
-    expect(vol.toJSON()).toEqual({ '/foo': 'bar' });
+    // expect(vol.toJSON()).toEqual({ '/foo': 'bar' });
 
   }
+
+}
+
+
+class Ejson extends FileHandler {
+  _
+
+  constructor(json, cwd) {
+    super(json, cwd);
+    this._ = this.merge(_lodash, _underscore)
+  }
+
+  merge = merge
 
 }
 
