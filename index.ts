@@ -119,11 +119,7 @@ class Ejson extends FileHandler {
   }
 
   get() {
-
-  }
-
-  set() {
-
+    return this.jsonValue;
   }
 
   insert() {
