@@ -1,3 +1,19 @@
+/**
+ * 
+ * Package: 
+ * Author: Ganesh B
+ * Description: 
+ * Install: npm i  --save
+ * Github: https://github.com/ganeshkbhat/
+ * npmjs Link: https://www.npmjs.com/package/
+ * File: index.js
+ * File Description: 
+ * 
+*/
+
+/* eslint no-console: 0 */
+
+'use strict';
 
 import { fs, memfs, vol, Volume } from "memfs";
 import { ufs } from "unionfs";
@@ -5,8 +21,11 @@ import * as _lodash from "lodash";
 import * as _underscore from "underscore";
 import * as njq from "node-jq";
 import { JQ } from "JQ";
+import * as tar from "tar-stream";
 
 import { default as merge } from "./merge.js";
+import type * as fsa from './node_modules/memfs/lib/fsa/types';
+import { FsaNodeFs } from './node_modules/memfs/lib/fsa-to-node';
 
 
 
@@ -69,8 +88,11 @@ class FileHandler {
     return vol.readFileSync(file, options);
   }
 
-  writeFileSystem(dir: fsa.IFileSystemDirectoryHandle) {
+  async writeFileSystem(dir: fsa.IFileSystemDirectoryHandle) {
+    (window as any).process = await import('process/browser');
+    (window as any).Buffer = await import('buffer').Buffer;
 
+    const fs = new FsaNodeFs(dir);
   }
 
   write = this.writeFileSync;
