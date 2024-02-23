@@ -27,8 +27,6 @@ import { default as merge } from "./merge.js";
 import type * as fsa from './node_modules/memfs/lib/fsa/types';
 import { FsaNodeFs } from './node_modules/memfs/lib/fsa-to-node';
 
-
-
 class FileHandler {
 
   vl: any;
@@ -106,7 +104,6 @@ class FileHandler {
       "./node_modules/debug/index.js": "3",
     };
     var vol = new Volume();
-    vol.m
     vol.fromJSON(json, "/app");
     fs.readFileSync("/app/README.md", "utf8"); // 1
     vol.readFileSync("/app/src/index.js", "utf8"); // 2
