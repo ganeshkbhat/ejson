@@ -66,7 +66,7 @@ if (isBrowser()) {
  * @param {boolean} [mergeall=true]
  * @return {*} 
  */
-function merge(l, u, mergeall = true) {
+function merge(l: any, u: any, mergeall = true) {
   let lk = Object.keys(l), uk = Object.keys(u);
   for (let i = 0; i < lk.length; i++) {
     if (!mergeall) {
