@@ -188,11 +188,14 @@ class Ejson extends FileHandler {
   jsonValue = (function () {
     var vjson = {};
     return {
-      get: (k: any = null) => {
-        if (vjson[k]) return vjson[k];
-        return vjson[k];
+      init: (vj: object = {}) => {
+        vjson = JSON.parse(JSON.stringify(vj));
       },
-      set: (k: any, v: any) => {
+      get: (k: string = "") => {
+        if (!!k && !!vjson[k]) return vjson[k];
+        return vjson;
+      },
+      set: (k: string, v: any) => {
         try {
           vjson[k] = v;
           this.writeFileSync(k, v, {}, this.vl);
@@ -200,6 +203,15 @@ class Ejson extends FileHandler {
         } catch (e) {
           return JSON.stringify(e);
         }
+      },
+      sync: (timer: number) => {
+        setTimeout(() => {
+          let ks = Object.keys(vjson);
+          let ksl = ks.length
+          for (let i = 0; i < ksl; i++) {
+            this.writeFileSync(ks[i], vjson[ks[i]])
+          }
+        }, timer || 60000);
       }
     }
   })()
@@ -289,3 +301,4 @@ class Ejson extends FileHandler {
   }
 
 }
+
