@@ -204,6 +204,9 @@ class Ejson extends FileHandler {
           return JSON.stringify(e);
         }
       },
+      delete: (k: string) => {
+        
+      },
       sync: (timer: number) => {
         setTimeout(() => {
           let ks = Object.keys(vjson);
@@ -240,15 +243,15 @@ class Ejson extends FileHandler {
    * @memberof Ejson
    */
   getQueryBuilder() {
-    return this.QueryBuilder(this.jsonValue.get())
+    return this.QueryBuilder(this.jsonValue.get());
   }
 
-  insert() {
-
+  insert(f: string, v: any) {
+    return this.jsonValue.set(f, v);
   }
 
-  delete() {
-
+  delete(f: string) {
+    return this.jsonValue.set(f);
   }
 
   find() {

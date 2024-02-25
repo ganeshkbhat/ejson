@@ -1,0 +1,12 @@
+
+
+## do an esbuild
+
+npx esbuild src/index.js \
+--entry-names=[dir]/index \
+--bundle \
+--minify \
+--sourcemap \
+--platform=node \
+--target=node20 \
+--outdir=build

@@ -12,6 +12,7 @@
   "dependencies": {
     "fs-monkey": "^1.0.5",
     "JQ": "^0.0.1",
+    "linkfs": "^2.1.0",
     "lodash": "^4.17.21",
     "memfs": "^4.7.7",
     "node-jq": "^4.3.0",
