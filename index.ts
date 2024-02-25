@@ -205,16 +205,21 @@ class Ejson extends FileHandler {
         }
       },
       delete: (k: string) => {
-        
+
       },
-      sync: (timer: number) => {
-        setTimeout(() => {
+      sync: (timer: number, interval: boolean) => {
+        let fn = () => {
           let ks = Object.keys(vjson);
           let ksl = ks.length
           for (let i = 0; i < ksl; i++) {
             this.writeFileSync(ks[i], vjson[ks[i]])
           }
-        }, timer || 60000);
+        }
+        if (!interval) {
+          setInterval(fn, timer || 600000);
+        } else {
+          setTimeout(fn, timer || 1000);
+        }
       }
     }
   })()
