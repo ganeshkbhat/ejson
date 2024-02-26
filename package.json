@@ -2,13 +2,20 @@
   "name": "ejson",
   "version": "1.0.0",
   "description": "running a simple ejson database server that can read and write with its own virtual filesystem",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "runner": "ts-node ",
+    "dev": "ts-node eserver.ts",
+    "precommit": "npm run build && npm run test",
+    "test": "mocha --reporter spec --recursive --timeout 60000"
   },
+  "directories": {
+    "test": "test"
+  },
+  "bin": {},
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "fs-monkey": "^1.0.5",
     "JQ": "^0.0.1",
@@ -21,6 +28,21 @@
     "unionfs": "^4.5.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.20"
+    "@types/node": "^20.11.20",
+    "@types/chai": "^4.3.11",
+    "@types/eslint": "^8.56.2",
+    "@types/events": "^3.0.3",
+    "@types/mocha": "^10.0.6",
+    "@types/sinon": "^17.0.3",
+    "@types/underscore": "^1.11.15",
+    "@types/uuid": "^9.0.8",
+    "chai": "^5.0.3",
+    "eslint": "^8.56.0",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3",
+    "unimported": "^1.31.1"
   }
 }

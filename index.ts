@@ -84,6 +84,8 @@ function merge(l: any, u: any, mergeall = true) {
 
 var _ = merge(_l, _u);
 
+
+
 class FileHandler {
 
   vl: any;
@@ -178,6 +180,8 @@ class FileHandler {
   }
 
 }
+
+
 
 class Ejson extends FileHandler {
   _QueryBuilder: any;
@@ -347,11 +351,15 @@ class Ejson extends FileHandler {
 
 }
 
-if (isBrowser()) {
-  module.exports.Ejson = Ejson;
-  module.exports.FileHandler = FileHandler;
-  module.exports.default = {
-    Ejson,
-    FileHandler
-  };
-}
+const edb = new Ejson({}, "/", true);
+edb.insert("/test.txt", "Testing");
+edb.insert("/test.md", "Testing");
+edb.insert("/test.csv", "Testing");
+edb.insert("/src/test.txt", "Testing");
+
+let c = edb.find("test");
+let d = edb.findOne("test.md");
+
+console.log(c);
+console.log(d);
+
