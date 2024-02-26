@@ -184,8 +184,10 @@ class FileHandler {
 }
 
 class Ejson extends FileHandler {
-  QueryBuilder;
-  jsonValue = (function () {
+  _QueryBuilder: any;
+  vfsContext: boolean = true;
+
+  vfsJsonValueSetter: Function = function () {
     var vjson = {};
     return {
       init: (vj: object = {}) => {
@@ -198,7 +200,7 @@ class Ejson extends FileHandler {
       set: (k: string, v: any) => {
         try {
           vjson[k] = v;
-          this.writeFileSync(k, v, {}, this.vl);
+          (!!this.vfsContext) ? this.writeFileSync(k, v, {}, this.vl) : null;
           return true;
         } catch (e) {
           return JSON.stringify(e);
@@ -208,13 +210,7 @@ class Ejson extends FileHandler {
 
       },
       sync: (timer: number, interval: boolean) => {
-        let fn = () => {
-          let ks = Object.keys(vjson);
-          let ksl = ks.length
-          for (let i = 0; i < ksl; i++) {
-            this.writeFileSync(ks[i], vjson[ks[i]])
-          }
-        }
+        let fn = () => { };
         if (!interval) {
           setInterval(fn, timer || 600000);
         } else {
@@ -222,24 +218,28 @@ class Ejson extends FileHandler {
         }
       }
     }
-  })()
+  }
+
+  jsonValue: any = this.vfsJsonValueSetter();
 
   /**
    * Creates an instance of Ejson.
    * @param {object} vjson
    * @param {string} cwd
+   * @param {boolean} vfsContext
    * @memberof Ejson
    */
-  constructor(vjson: object, cwd: string) {
+  constructor(vjson: object, cwd: string, vfsContext: boolean) {
     super();
+    this.vfsContext = vfsContext;
     this.create(vjson, cwd);
     Object.keys(vjson).forEach((k) => {
       this.jsonValue.set(k, vjson[k]);
     });
-    this.QueryBuilder = this.merge(_lodash, _underscore);
+    this._QueryBuilder = this.merge(_lodash, _underscore);
   }
 
-  merge = merge;
+  merge: Function = merge;
 
   /**
    *
@@ -248,26 +248,67 @@ class Ejson extends FileHandler {
    * @memberof Ejson
    */
   getQueryBuilder() {
-    return this.QueryBuilder(this.jsonValue.get());
+    return this._QueryBuilder();
   }
 
+  /**
+   *
+   *
+   * @param {string} f
+   * @param {*} v
+   * @return {*} 
+   * @memberof Ejson
+   */
   insert(f: string, v: any) {
     return this.jsonValue.set(f, v);
   }
 
+  /**
+   *
+   *
+   * @param {string} f
+   * @return {*} 
+   * @memberof Ejson
+   */
   delete(f: string) {
-    return this.jsonValue.set(f);
+    return this.jsonValue.set(f, undefined);
   }
 
-  find() {
-
+  /**
+   * 
+   * Usage Similar to
+   * https://lodash.com/docs/4.17.15#find
+   *
+   * @param {(string | any[] | object)} q
+   * @return {*} 
+   * @memberof Ejson
+   */
+  find(q: string | any[] | object) {
+    return this.getQueryBuilder().find(this.jsonValue.get(), q);
   }
 
-  findOne() {
-
+  /**
+   *
+   * Usage Similar to
+   * https://lodash.com/docs/4.17.15#find
+   * https://lodash.com/docs/4.17.15#findLast
+   *
+   * @param {(string | any[] | object)} q
+   * @param {boolean} [last=true]
+   * @return {*} 
+   * @memberof Ejson
+   */
+  findOne(q: string | any[] | object, last = true) {
+    return (!!last) ? this.getQueryBuilder().findLast(this.jsonValue.get(), q) : this.getQueryBuilder().find(this.jsonValue.get(), q)[0];
   }
 
-  execute() {
+  /**
+   *
+   *
+   * @param {*} q
+   * @memberof Ejson
+   */
+  execute(q: any) {
 
   }
 
@@ -309,4 +350,3 @@ class Ejson extends FileHandler {
   }
 
 }
-
