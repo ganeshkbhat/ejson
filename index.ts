@@ -142,6 +142,7 @@ class FileHandler {
 
   writeFileSync(id: string, data: any, options: object, vol: any) {
     vol.writeFileSync(id, data, options);
+    return true;
   }
 
   readFileSync(file: string, options: string | object, vol: any) {
