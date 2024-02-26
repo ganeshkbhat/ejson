@@ -84,11 +84,6 @@ function merge(l: any, u: any, mergeall = true) {
 
 var _ = merge(_l, _u);
 
-if (isBrowser()) {
-  module.exports = _;
-  module.exports.default = _;
-}
-
 class FileHandler {
 
   vl: any;
@@ -350,4 +345,13 @@ class Ejson extends FileHandler {
     return JQ(this.jsonValue)(q);
   }
 
+}
+
+if (isBrowser()) {
+  module.exports.Ejson = Ejson;
+  module.exports.FileHandler = FileHandler;
+  module.exports.default = {
+    Ejson,
+    FileHandler
+  };
 }

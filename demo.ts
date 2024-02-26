@@ -15,3 +15,8 @@
 
 'use strict';
 
+import * as edbH from "./index";
+
+const edb = edbH.Ejson();
+
+
