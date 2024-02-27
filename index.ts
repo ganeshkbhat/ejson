@@ -84,8 +84,6 @@ function merge(l: any, u: any, mergeall = true) {
 
 var _ = merge(_l, _u);
 
-
-
 class FileHandler {
 
   vl: any;
@@ -117,7 +115,7 @@ class FileHandler {
    * @return {*} 
    * @memberof FileHandler
    */
-  fromNestedJSON(vjson: object, cwd: string) {
+  fromNestedJSON(vjson: any, cwd: string) {
     const vol = new Volume();
     vol.fromNestedJSON(vjson, cwd || "/");
     return vol;
@@ -131,24 +129,24 @@ class FileHandler {
    * @return {*} 
    * @memberof FileHandler
    */
-  fromJSON(vjson: object, cwd: string) {
+  fromJSON(vjson: any, cwd: string) {
     const vol = new Volume();
     vol.fromJSON(vjson, cwd || "/");
     return vol;
   }
 
-  writeFileSync(id: string, data: any, options: object, vol: any) {
+  writeFileSync(id: string, data: any, options: any, vol: any) {
     vol.writeFileSync(id, data, options);
     return true;
   }
 
-  readFileSync(file: string, options: string | object, vol: any) {
+  readFileSync(file: string, options: string | any, vol: any) {
     return vol.readFileSync(file, options);
   }
 
   async writeFileSystem(dir: fsa.IFileSystemDirectoryHandle) {
-    (window as any).process = await import('process/browser');
-    (window as any).Buffer = await import('buffer').Buffer;
+    // (window as any).process = await import('process/browser');
+    // (window as any).Buffer = await (await import('buffer')).Buffer;
 
     const fs = new FsaNodeFs(dir);
   }
@@ -181,14 +179,12 @@ class FileHandler {
 
 }
 
-
-
 class Ejson extends FileHandler {
   _QueryBuilder: any;
   vfsContext: boolean = true;
 
-  vfsJsonValueSetter: Function = function () {
-    var vjson = {};
+  vfsJsonValueSetter: Function = () => {
+    var vjson: any = {};
     return {
       init: (vj: object = {}) => {
         vjson = JSON.parse(JSON.stringify(vj));
@@ -229,7 +225,7 @@ class Ejson extends FileHandler {
    * @param {boolean} vfsContext
    * @memberof Ejson
    */
-  constructor(vjson: object, cwd: string, vfsContext: boolean) {
+  constructor(vjson: any, cwd: string, vfsContext: boolean) {
     super();
     this.vfsContext = vfsContext;
     this.create(vjson, cwd);
